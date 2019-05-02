@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+
+<html lang="es">
+  <head>
+    <title>Ejercicios Extra</title>
+
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="//cdn.rawgit.com/necolas/normalize.css/master/normalize.css" />
+    <link rel="stylesheet" href="//cdn.rawgit.com/milligram/milligram/master/dist/milligram.min.css" />
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic" />
+    <link rel="stylesheet" href="styles.css">
+  </head>
+
+  <body>
+
+    <div class="container">
+        <h1>Acámica - Frontend React Avanzado</h1>
+          <section class="grid">           
+            </section>
+      </div>
+
+    <script>
+    /* Tu código acá */
+
+    // const cors = require('cors') 
+
+    // const baseUrl = 'https://swapi.co/api'
+
+    // const getPeople = async (Id) => {
+    //   const url = `${baseUrl}/people/${Id}`
+    //   console.log('url:', url)
+
+    //   const response = await fetch(`${url}`)
+    //   const data = await response.json()
+
+    // return data
+    // }
+
+    // const main = async () => {
+    //   const people = await getPeople(20)
+    //   console.log('people:', people)
+    // }
+
+    // main()
+
+
+    
+
+
+    const cardItem = (props) => {
+      const {image, name, species, origin } = props
+      const { name: planet, url } = origin
+
+      return `<article class="card">          
+                  <div class="head">
+                    <img src=${image} alt="">
+                  </div>
+                  <div class="body">
+                    <h4>Nombre: ${name}</h4>
+                    <h5>Species: ${species}</h5>
+                    <h6>Planeta: ${planet}</h6>
+                    <button>Obtener Dimensión</button>
+                  </div>
+                </article>`
+    }
+
+    
+
+    const getCharacters = async (baseUrl, id) => {
+
+      try {
+
+        const url = `${baseUrl}/people/${id}`
+        console.log('url:', url)
+
+        const response = await fetch(url)
+        const characters = await response.json()
+
+        return characters
+      } catch (error) {
+          console.error(error)
+      }
+
+      }
+
+    
+    const main = async () => {
+      const baseUrl = 'https://swapi.co/api'
+      const characters = await getCharacters(baseUrl, 1)
+      console.log('characters:', characters)
+
+      const grid = document.querySelector('.grid')
+      grid.innerHTML += cardItem(characters[0])
+
+    }
+
+    main()
+
+    
+
+
+    </script>
+  </body>
+</html>

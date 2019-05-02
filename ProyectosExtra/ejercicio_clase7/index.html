@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css" />
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <div id="app">
+
+        <div class="container">
+            <form action="submit">
+                <input class="input" type="text" placeholder="Buscar Hotel">
+            </form>
+            <section class="grid"></section>
+        </div>
+
+    </div>
+
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Faker/3.1.0/faker.min.js"></script>
+    <script type="text/babel">
+    
+    // Quiero:
+    // 1. Traer el listado de los hoteles
+    // 2. 
+
+
+
+    // A. Crear una clase APP que herede las propiedades del componente de React
+    // class App extends React.Component {
+    //     constructor() {
+    //         super()
+
+
+    //     }
+    // }
+
+
+    // function App() {
+    //     const filters = {
+    //         dateFrom: today, // Proviene del archivo data.js
+    //         dateTo: new Date(today.valueOf() + 86400000),
+    //         country: '',
+    //         price: 0,
+    //         rooms: 0
+    //     }
+
+    // return (
+    //     <div>
+    //     <Hero filters={ filters } />
+    //     </div>
+    // )
+    // }
+
+    const CardItem = (props) => {
+        const {photo, name, description, city, country, price, rooms} = props
+
+        return `<article class="card">
+                    <div class="head">
+                        <img src=${photo} alt="image">
+                    </div>
+                    <div class="body">
+                        <h2>Nombre: ${name}</h2>
+                        <h3>Descripción: ${description}</h3>
+                        <h4>Ciudad: ${city}</h4>
+                        <h4>País: ${country}</h4>
+                        <h4>Precio: ${price}</h4>
+                        <h4>Habitaciones: ${rooms}</h4>
+                        <button class="button is-info">Boton</button>
+                    </div>
+                </article>
+        `
+    }
+
+    //C. Construir una función para obtener los datos de la API
+        const getHotels = async (baseUrl) => {
+            const url = `${baseUrl}`
+
+            const response = await fetch(url)
+            const hotels = await response.json()
+
+            return hotels
+        }
+
+    //D. Construir una función para inscrustar los elementos en el Virtual DOM
+        // const appendElements = (hotels, emptyGrid) => {
+        //     const grid = document.querySelector('.grid')
+
+
+        // }
+
+    //E. Tener una función que ejecute la logica principal
+        const main = async () => {
+            const baseUrl = 'https://wt-8a099f3e7c73b2d17f4e018b6cfd6131-0.sandbox.auth0-extend.com/acamica'
+
+            // Parte 1 - Obtener elementos de la API y mostralos en el DOM
+            const hotels = await getHotels(baseUrl)
+            console.log('hotels:', hotels)
+            
+            const grid = document.querySelector('.grid')  
+            const hotelsItems = hotels.map(hotel => CardItem(hotel))
+            grid.innerHTML =  hotelsItems.join(' ')
+
+
+            const form = document.querySelector('form')
+            const inputHotel = document.querySelector('input')
+
+            form.addEventListener('submit', function(event) {
+                event.preventDefault()
+                console.log('Formulario submiteado')
+            })
+            
+            // Parte 2 - Hacer una query con los parametros de los filtros
+        
+
+
+                // 1. Obtener los valores filtrados
+                // 2. Fetchear con los filtos establecitos 
+                // 3. Mostrar en el DOM los valores de la query
+        }
+
+        main()
+
+    // B. Hacer un render de la APP seleccionando previamente el div con el id app
+    // ReactDOM.render(<App />, document.querySelector('#app'))
+
+
+
+    </script>
+</body>
+</html>

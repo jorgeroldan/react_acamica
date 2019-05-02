@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+
+<html lang="es">
+  <head>
+    <title>Ejercicios Extra</title>
+
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="//cdn.rawgit.com/necolas/normalize.css/master/normalize.css" />
+    <link rel="stylesheet" href="//cdn.rawgit.com/milligram/milligram/master/dist/milligram.min.css" />
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic" />
+    <link rel="stylesheet" href="styles.css">
+  </head>
+
+  <body>
+
+    <div class="container">
+        <h1>Rick and Morty APP</h1>
+
+        <form action="submit">
+          <input type="text" placeholder="Rick Sanchez">
+          <button class="submit">Buscar</button>
+        </form>
+        
+          <section class="grid"></section>
+      </div>
+
+    <script>
+    /* Tu código acá */
+
+
+    const cardItem = (props) => {
+      const {image, name, species, origin } = props
+      const { name: planet, url } = origin
+
+      return `<article class="card">          
+                  <div class="head">
+                    <img src=${image} alt="">
+                  </div>
+                  <div class="body">
+                    <h4>Nombre: ${name}</h4>
+                    <h5>Especie: ${species}</h5>
+                    <h6>Planeta: ${planet}</h6>
+                    <button>Obtener Dimensión</button>
+                  </div>
+                </article>`
+    }
+
+  
+    const getCharacters = async (baseUrl, from, to) => {
+
+      try {
+        const characterRange = Array.from({ length: to - from + 1 }, (_, index) => index + 1).join(',')
+        const url = `${baseUrl}/character/${characterRange}`
+        console.log('url:', url)
+
+        const response = await fetch(url)
+        const characters = await response.json()
+
+        return characters
+      } catch (error) {
+        console.error('error:', error)
+      }
+
+    }
+
+    const getCharactersByQuery = async (baseUrl, query) => {
+
+      try {
+        const url = `${baseUrl}/character/?name=${query}`
+        console.log('url:', url)
+
+        const response = await fetch(url)
+        const {results: characters} = await response.json()
+
+        return characters
+      } catch (error) {
+        console.error('error:', error)
+      }
+
+    }
+
+    
+    const appendElements = (characters, emptyGrid) => {
+
+      // Obtener el elemento con clase Grid
+
+      const grid = document.querySelector('.grid')
+
+      if (emptyGrid === true) grid.innerHTML = null
+
+      characters.forEach(character => {
+        const cardItemHTML = cardItem(character)
+        grid.innerHTML += cardItemHTML
+      })
+
+      // Otro camino posible
+  
+        // const inputCharacter = document.querySelector('input')
+        // grid.innerHTML += characterItems.join(' ')
+        // const characterItems = characters.map(character => cardItem(character))
+    }
+
+
+    const main = async () => {
+      // Obtener los elementos de la api y mostrarlos en el DOM
+      const baseUrl = 'https://rickandmortyapi.com/api'
+      const characters = await getCharacters(baseUrl, 1, 20)
+      
+      const form = document.querySelector('form')
+      const inputCharacter = document.querySelector('input')
+ 
+      appendElements(characters)
+
+      // Obtener el valor del input a partir de un evento
+      
+      form.addEventListener('submit', async function(event){
+        event.preventDefault()
+
+      // 1. Obtener el valor del input
+      const query = inputCharacter.value
+
+      // 2. Fetchear personajes en base a ese valor
+        const CharactersByQuery =  await getCharactersByQuery(baseUrl, query)
+        console.log('CharactersByQuery:', CharactersByQuery)
+
+      // 3. Mostrar 
+      appendElements(CharactersByQuery, true)
+
+      })
+
+
+
+   
+
+    }
+
+    main()
+
+    
+
+
+    </script>
+  </body>
+</html>

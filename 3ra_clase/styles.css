@@ -1,0 +1,35 @@
+form {
+    display: grid;
+    grid-gap: 8px;
+    grid-template-columns: 3fr 1fr;
+}
+
+.grid {
+    display: grid;
+    grid-gap: 8px;
+    grid-template-columns: repeat(auto-fill, minmax(220px,1fr));
+}
+
+.card {
+    width: 220px;
+    border: 1px solid blueviolet;
+    border-radius: 5px;
+}
+
+.card .head img {
+    height: 218px;
+    border-radius: inherit;
+    border-top-left-radius: inherit;
+    border-top-right-radius: inherit;
+}
+
+.card .body {
+    padding: 0 4px 8px 4px;
+
+}
+
+.card .body button {
+    display: block;
+    margin: 10px auto 10px auto;
+}
+
